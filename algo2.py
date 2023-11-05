@@ -1,13 +1,5 @@
 from util import get_trace
 
-# def get_trace(pred, n):
-#     id_list = []
-#     id = pred[n]
-#     while id >= 0:
-#         id_list = [id] + id_list
-#         id = pred[id]
-#     return id_list
-
 def memoization(n, k, cost, dp, pred):
     for prev_id in range(n-1, max(-1, n-k-1), -1):
         if dp[prev_id] == float('inf'):
@@ -35,12 +27,14 @@ def bottom_up(n, k, cost):
         print(pf, end=" ")
 
 if __name__ == "__main__":
-    n = 8
-    k = 4
-    cost = [12, 5, 8, 9, 11, 13, 16, 1]
-    # cost = [12, 5, 7, 9, 7, 6, 16, 1]
+    n, k = input().split()
+    n, k = int(n), int(k)
+    cost_str = input().split()
+    cost = [int(s) for s in cost_str]
 
     bottom_up(n, k, cost)
+
+    print("")
 
     dp = [float('inf') for _ in range(n+1)]
     dp[0] = cost[0]

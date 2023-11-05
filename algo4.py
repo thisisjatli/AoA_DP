@@ -23,9 +23,9 @@ def sol(n, k, cost):
 
 
 if __name__ == "__main__":
-    n = 8
-    k = 4
-    cost = [12, 5, 8, 9, 11, 13, 16, 1]
-    # cost = [12, 5, 7, 9, 7, 6, 16, 1]
+    n, k = input().split()
+    n, k = int(n), int(k)
+    cost_str = input().split()
+    cost = [int(s) for s in cost_str]
 
     sol(n, k, cost)
