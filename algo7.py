@@ -60,7 +60,7 @@ def alg7 (n, k, m, cost):
 
 if __name__ == "__main__":
     n, k, m = input().split()
-    n, k, m = int(n), int(k)
+    n, k, m = int(n), int(k), int(m)
     cost_str = input().split()
     cost = [int(s) for s in cost_str]
 

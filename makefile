@@ -7,9 +7,9 @@ run2A:
 run2B:
 	python3 algo2B.py
 run3:
-	python3 run3.py
+	python3 algo3.py
 run4:
-	python3 run4.py
+	python3 algo4.py
 run5:
 	python3 algo5.py
 run6A:
@@ -17,6 +17,6 @@ run6A:
 run6B:
 	python3 algo6B.py
 run7:
-	python3 run7.py
+	python3 algo7.py
 run8:
-	python3 run8.py
+	python3 algo8.py
