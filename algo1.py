@@ -36,16 +36,16 @@ if __name__ == "__main__":
     cost = [int(s) for s in cost_str]
     
     # sol: the min cost for starting from platform i
-    min_cost = [float('inf') for _ in range(n+1)]    
-    succ = [-1 for _ in range(n)] # successor of the platform (sol)
-    sol(0, n, k, cost, min_cost, succ)
-    next_pf = succ[0]
-    print(0, end=" ")
-    while next_pf < n:
-        print(next_pf, end=" ")
-        next_pf = succ[next_pf]
+    # min_cost = [float('inf') for _ in range(n+1)]    
+    # succ = [-1 for _ in range(n)] # successor of the platform (sol)
+    # sol(0, n, k, cost, min_cost, succ)
+    # next_pf = succ[0]
+    # print(0, end=" ")
+    # while next_pf < n:
+    #     print(next_pf, end=" ")
+    #     next_pf = succ[next_pf]
     
-    print("")
+    # print("")
 
     # sol2: the min cost for reaching platform i
     cost = cost + [0]   # dummy cost for after all platforms (sol2)
