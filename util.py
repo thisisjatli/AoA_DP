@@ -5,7 +5,7 @@ from collections import deque as dq
 
 # class for the queue
 
-class MinQueue:
+class MinMaxQueue:
 
 	def __init__(self):
 		# Queue to store the
@@ -20,25 +20,25 @@ class MinQueue:
 
 	# Function to push a element
 	# into the queue
-	def enque_element(self, val, id):
+	def enque_element(self, element):
 		# If there is no element
 		# in the queue
 		if (len(self.Q) == 0):
-			self.Q.append((val, id))
-			self.D.append((val, id))
+			self.Q.append(element)
+			self.D.append(element)
 
 		else:
-			self.Q.append((val, id))
+			self.Q.append(element)
 
 			# Pop the elements out
 			# until the element at
 			# back is greater than
 			# current element
 			while (self.D and
-				self.D[-1][0] > val):
+				self.D[-1][0] > element[0]):
 				self.D.pop()
 
-			self.D.append((val, id))
+			self.D.append(element)
 
 	# Function to pop the element
 	# out from the queue
@@ -71,7 +71,7 @@ def get_trace(pred, n):
 
 # test
 if __name__ == '__main__':
-	k = MinQueue()
+	k = MinMaxQueue()
 	example = [1, 10, 5, 6, 2]
 
 	# Loop to enque element
