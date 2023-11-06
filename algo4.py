@@ -1,17 +1,17 @@
-from util import MinQueue, get_trace
+from util import MinMaxQueue, get_trace
 
-def sol(n, k, cost):
-    mq = MinQueue()
+def algo4(n, k, cost):
+    mq = MinMaxQueue()
 
-    cost = cost + [0]
-    dp = [float('inf') for _ in range(n+1)]
-    dp[0] = cost[0]
+    cost_for_m = cost + [0]
+    dp = [100000 for _ in range(n+1)]
+    dp[0] = cost_for_m[0]
     pred = [-1 for _ in range(n+1)]
 
     for i in range(1, n+1):
-        mq.enque_element(dp[i-1], i-1)
+        mq.enque_element((dp[i-1], i-1))
         prev_cost, prev_id = mq.getMin()
-        dp[i] = prev_cost + cost[i]
+        dp[i] = prev_cost + cost_for_m[i]
         pred[i] = prev_id
 
         if i >= k:
@@ -21,11 +21,10 @@ def sol(n, k, cost):
     for pf in trace:
         print(pf, end=" ")
 
-
 if __name__ == "__main__":
     n, k = input().split()
     n, k = int(n), int(k)
     cost_str = input().split()
     cost = [int(s) for s in cost_str]
 
-    sol(n, k, cost)
+    algo4(n, k, cost)

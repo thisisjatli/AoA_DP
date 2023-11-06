@@ -1,33 +1,41 @@
 from util import get_trace
 
-# dynamic start point
-def sol(start, n, k, cost, min_cost, succ):
-    if start >= n:  # pass the goal, do nothing
-        return
-    for d in range(k, 0, -1):   # look for next possible k stations
-        next_id = start + d
-        sol(next_id, n, k, cost, min_cost, succ)   # recursion
-
-        # possible min cost if that's the next platform
-        the_cost = min_cost[next_id] + cost[start] if next_id < n else cost[start]
-        if min_cost[start] > the_cost:  # update it it's a new min cost found
-            min_cost[start] = the_cost
-
-            # update successor as well
-            succ[start] = min(n, next_id)
-    return
-
-# dynamic end point
-def sol2(n, k, cost, min_cost, pred):
+def sol(n, k, cost):
     if n <= 0:
-        return
+        return cost[0], [0]
+
+    min_cost = 100000
+    min_trace = []
     for prev_id in range(n-1, max(-1, n-k-1), -1):
-        sol2(prev_id, k, cost, min_cost, pred)
-        the_cost = min_cost[prev_id] + cost[n]
-        if min_cost[n] > the_cost:
-            min_cost[n] = the_cost
-            pred[n] = prev_id
-    return
+        the_cost, the_trace = sol(prev_id, k, cost)
+        the_cost = the_cost + cost[n]
+        if min_cost > the_cost:
+            min_cost = the_cost
+            min_trace = the_trace + [n]
+    return min_cost, min_trace
+
+# def top_down(n, k, cost):
+#     def func(i, prev_cost):
+#         if i >= n:
+#             return [prev_cost, []]
+#         element = [100000, []]
+#         for next_i in range(i+1, i+k+1):
+#             next_element = func(next_i, prev_cost+cost[i])
+#             if element[0] > next_element[0]:
+#                 element = next_element
+#         element[1].append(i)
+#         return element
+    
+#     result = func(0, 0)
+#     for r in result[1][::-1]:
+#         print(r, end=" ")
+
+def algo1(n, k, cost):
+    cost = cost + [0]   # dummy cost for after all platforms (sol2)
+    min_cost, trace = sol(n, k, cost)
+    for pf in trace[:-1]:
+        print(pf, end=" ")
+
 
 if __name__ == "__main__":
     n, k = input().split()
@@ -36,7 +44,7 @@ if __name__ == "__main__":
     cost = [int(s) for s in cost_str]
     
     # sol: the min cost for starting from platform i
-    # min_cost = [float('inf') for _ in range(n+1)]    
+    # min_cost = [100000 for _ in range(n+1)]    
     # succ = [-1 for _ in range(n)] # successor of the platform (sol)
     # sol(0, n, k, cost, min_cost, succ)
     # next_pf = succ[0]
@@ -44,15 +52,5 @@ if __name__ == "__main__":
     # while next_pf < n:
     #     print(next_pf, end=" ")
     #     next_pf = succ[next_pf]
-    
-    # print("")
 
-    # sol2: the min cost for reaching platform i
-    cost = cost + [0]   # dummy cost for after all platforms (sol2)
-    min_cost = [float('inf') for _ in range(n+1)]
-    min_cost[0] = cost[0]
-    pred = [-1 for _ in range(n+1)] # predecessor of the platform (sol2)
-    sol2(n, k, cost, min_cost, pred)
-    trace = get_trace(pred, n)
-    for pf in trace:
-        print(pf, end=" ")
+    algo1(n, k, cost)
