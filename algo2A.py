@@ -1,23 +1,24 @@
 from util import get_trace
 
-def memoization(n, k, cost, dp, pred):
-    for prev_id in range(n-1, max(-1, n-k-1), -1):
-        if dp[prev_id] >= 100000:
-            dp, pred = memoization(prev_id, k, cost, dp, pred)
-
-        the_cost = dp[prev_id]+cost[n]
-        if dp[n] > the_cost:
-            dp[n] = the_cost
-            pred[n] = prev_id
-
-    return dp, pred
-
 def algo2A(n, k, cost):
     dp = [100000 for _ in range(n+1)]
     dp[0] = cost[0]
     pred = [-1 for _ in range(n+1)]
     cost_for_m = cost + [0]
-    dp, pred = memoization(n, k, cost_for_m, dp, pred)
+    def memoization(i):
+        if dp[i] < 100000:  # i already initialized
+            return dp[i]
+        
+        # min_cost = -100000
+        for prev_id in range(max(i-k, 0), i):
+            the_cost = memoization(prev_id) + cost_for_m[i]
+            if dp[i] > the_cost:
+                dp[i] = the_cost
+                pred[i] = prev_id
+        # dp[i] = min_cost
+        return dp[i]
+    
+    memoization(n)
     trace = get_trace(pred, n)
     for pf in trace:
         print(pf, end=" ")
