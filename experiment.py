@@ -3,24 +3,28 @@ import time
 from multiprocessing import Pool
 import json
 
+import sys
+sys.setrecursionlimit(100000)
+
 from algo1 import algo1, top_down
-from algo2A import algo2A
+from algo2A import algo2A, algo2A_v2
 from algo2B import bottom_up
 from algo3 import algo3
 from algo4 import algo4
 from algorithm import alg5, alg6a, alg6b, alg7, alg8
 
-def generate_input(n):
+def generate_input(n, cost):
     # k < n
     # ceil(n/k) <= m <= n
-    rd_cost = np.random.randint(0, 100, size=n, dtype='int')
+    added_len = abs(n-len(cost))
+    rd_cost = np.random.randint(0, 30, size=added_len, dtype='int')
     # k = random.randint(1, min(n+1, 5))
     # m = random.randint(math.ceil(n/k), min(math.ceil(n/k)+5, n))
     # print('n:', n)
     # print('k:', k)
     # print('m:', m)
     # print('Cost:', cost)
-    cost = [int(rd_cost[i]) for i in range(rd_cost.size)]   # in order to store in json file
+    cost = cost + [int(rd_cost[i]) for i in range(rd_cost.size)]   # in order to store in json file
     return cost
 
 def runtime_test(n, k, m, cost, algo='1'):
@@ -30,8 +34,11 @@ def runtime_test(n, k, m, cost, algo='1'):
             algo1(n, k, cost)
             print("\nalgo1 done")
         case '2A':
-            algo2A(n, k, cost)
+            algo2A_v2(n, k, cost)
             print("\nalgo2A done")
+        case '2A_v2':
+            algo2A_v2(n, k, cost)
+            print("\nalgo2A_v2 done")
         case '2B':
             bottom_up(n, k, cost)
             print("\nalgo2B done")
@@ -131,22 +138,34 @@ def experiment_v1(n, k, m, cost, algo_list):
 
 if __name__ == "__main__":
     # n_list = [10, 50, 100, 500, 1000, 5000, 10000, 50000, 99999]
-    n_list = [10, 15, 20, 25, 30, 35]    # for brute-force, the size limit is around 60
-    # n_list = [10]
-    k, m = 5, 8 # experimental purpose
-    algo_list = ['1', '2A', '2B', '3', '4', '5', '6A', '6B', '7', '8']
+    # n_list = [100, 500, 1000, 5000, 10000, 20000, 30000, 40000]
+    # n_list = [100, 500, 1000, 5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000]
+    n_list = [100, 500, 1000, 2000, 3000, 4000, 5000]
+    # n_list = [10000, 20000, 30000, 40000]
+    # n_list = [10, 15, 20, 25, 30, 35]    # for brute-force, the size limit is around 60
+    # n_list = [20, 30, 40, 50, 60]
+    # k, m = 80, 60
+    k, m = 100, 60
+    # k, m = 1000, 50
+    # k, m = 5, 8
+    # k, m = 500, 200 # experimental purpose
+    # algo_list = ['2A', '2B', '3', '4', '6A', '6B', '7', '8']
+    # algo_list = ['2A', '2B', '3', '4']
+    algo_list = ['6A', '6B', '7', '8']
+    # algo_list = ['2A', '2B']
 
     stats = {n: {} for n in n_list}
+    cost = []
 
     for n in n_list:
-        cost = generate_input(n)
-        stats[n]["cost"] = cost
+        cost = generate_input(n, cost)
+        # stats[n]["cost"] = cost
         print("n:", n)
-        print("Cost:", cost)
-        results = experiment_v1(n, k, m, cost)
-        stats[n]["runtime"] = results
+        # print("Cost:", cost)
+        results = experiment_v1(n, k, m, cost, algo_list)
+        stats[n]["runtime"] = {algo: r for algo, r in zip(algo_list, results)}
 
     json_object = json.dumps(stats, indent=4)
-    with open('experimental_results/results.json', 'w') as fw:
+    with open('experimental_results/p2_without_bf_small.json', 'w') as fw:
         fw.write(json_object)
         
