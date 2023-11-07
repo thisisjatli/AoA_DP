@@ -1,22 +1,25 @@
 def alg6a (n, k, m, cost):
-    dp  = [[100000 for _ in range(n)] for _ in range(m+1)]
+    dp  = [[-1 for _ in range(n)] for _ in range(m+1)]
     successor = [[-1 for _ in range(n)] for _ in range(m+1)]
-    def helper(i, m, current_cost): # return the cost to jump to i
+    def helper(i, m): # return the cost to jump to i
         if m==0 and i>=n:
-            return current_cost
+            return 0
         if m==0 or i>=n:
             return 100000
-        if dp[m][i] < 100000:
+        if dp[m][i] != -1:
             return dp[m][i]
         min_cost = 100000
         for j in range(1, k+1):
-            helper_result = helper(i+j, m-1, current_cost+cost[i])
+            helper_result = helper(i+j, m-1)
             if min_cost > helper_result:
                 successor[m][i] = i+j
                 min_cost = helper_result
-        dp[m][i] = min_cost
-        return min_cost
-    helper(0,m,0)
+        dp[m][i] = min_cost+cost[i]
+        return dp[m][i]
+
+    helper(0,m)
+
+
     string = "0 "
     m_s = m
     i_s = 0
