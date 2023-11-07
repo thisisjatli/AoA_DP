@@ -18,8 +18,6 @@ def alg6a (n, k, m, cost):
         return dp[m][i]
 
     helper(0,m)
-
-
     string = "0 "
     m_s = m
     i_s = 0
