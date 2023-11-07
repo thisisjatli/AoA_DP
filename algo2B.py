@@ -6,7 +6,7 @@ def bottom_up(n, k, cost):
     dp = [100000 for _ in range(n+1)]
     dp[0] = cost_for_m[0]
     for i in range(1, n+1):
-        for prev_i in range(i-1, max(-1, i-k-1), -1):
+        for prev_i in range(max(0, i-k), i):
             the_cost = dp[prev_i]+cost_for_m[i]
             if dp[i] > the_cost:
                 dp[i] = the_cost
