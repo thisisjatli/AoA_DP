@@ -6,8 +6,8 @@ import json
 import sys
 sys.setrecursionlimit(100000)
 
-from algo1 import algo1, top_down
-from algo2A import algo2A, algo2A_v2
+from algo1 import algo1
+from algo2A import algo2A
 from algo2B import bottom_up
 from algo3 import algo3
 from algo4 import algo4
@@ -26,11 +26,8 @@ def runtime_test(n, k, m, cost, algo='1'):
             algo1(n, k, cost)
             print("\nalgo1 done")
         case '2A':
-            algo2A_v2(n, k, cost)
+            algo2A(n, k, cost)
             print("\nalgo2A done")
-        case '2A_v2':
-            algo2A_v2(n, k, cost)
-            print("\nalgo2A_v2 done")
         case '2B':
             bottom_up(n, k, cost)
             print("\nalgo2B done")

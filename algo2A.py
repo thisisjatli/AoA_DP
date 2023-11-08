@@ -3,18 +3,18 @@ from util import get_trace
 def algo2A(n, k, cost):
     dp = [100000 for _ in range(n+1)]
     dp[0] = cost[0]
-    pred = [-1 for _ in range(n+1)]
-    cost_for_m = cost + [0]
+    pred = [-1 for _ in range(n+1)] # predecessor for each platform
+    cost_for_m = cost + [0] # add dummy cost for n
     
     def memoization(i):
         for prev_id in range(max(i-k, 0), i):
-            if dp[prev_id] < 100000:
+            if dp[prev_id] < 100000:    # if initialized
                 the_cost = dp[prev_id] + cost_for_m[i]
-            else:
+            else:   # if not, do recursion
                 the_cost = memoization(prev_id) + cost_for_m[i]
             if dp[i] > the_cost:
-                dp[i] = the_cost
-                pred[i] = prev_id
+                dp[i] = the_cost    # update with a smaller cost
+                pred[i] = prev_id   # update its predecessor
         return dp[i]
     
     memoization(n)

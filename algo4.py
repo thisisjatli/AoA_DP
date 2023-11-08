@@ -10,12 +10,12 @@ def algo4(n, k, cost):
 
     for i in range(1, n+1):
         mq.enque_element((dp[i-1], i-1))
-        prev_cost, prev_id = mq.getMin()
+        prev_cost, prev_id = mq.getMin()    # get the min cost in range
         dp[i] = prev_cost + cost_for_m[i]
         pred[i] = prev_id
 
         if i >= k:
-            mq.deque_element()
+            mq.deque_element()  # remove if out of range
 
     trace = get_trace(pred, n)
     for pf in trace:
